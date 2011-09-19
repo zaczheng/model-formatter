@@ -132,5 +132,18 @@ class ModelFormatterTest < Test::Unit::TestCase
 		e.formatted_super_precise_tax = '$12,412.292888'
 		assert_equal 12412292888, e.super_precise_tax
 	end
+
+	### Tests for date formatter
+	def test_for_date_formatter_can_format_date_and_time
+		Entry.format_column :date, :as => :date
+		assert Entry.new.respond_to?('formatted_date')
+		# This might appear unformatted but it's prettier Rails
+		assert_equal "2011-09-19 12:25:00 +0100", Entry.formatted_date_formatter(Time.new(2011,9,19,12,25,0))
+	end
+
+	def test_for_date_formatter_can_format_date_only
+		Entry.format_column :date, :as => :date, :options => { :exclude_time => true }
+		assert_equal "2011-09-19", Entry.formatted_date_formatter(Time.new(2011,9,19,12,25,0))
+	end
 end
 
