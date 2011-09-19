@@ -1,7 +1,7 @@
 module Formatters
   class FormatDate < Format
     def initialize(options = {})
-      @format = options[:format] || :default
+      @format = options[:format] || :normal
       @exclude_time = options[:exclude_time] || false
     end
 
@@ -17,10 +17,7 @@ module Formatters
       if @exclude_time
         value = value.to_date
       end
-
-      # format should be defined in locale.yml
-      # see https://github.com/svenfuchs/rails-i18n for examples
-      I18n.l(value, :format => @format)
+      value.to_time
     end
   end
 end
